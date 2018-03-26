@@ -1,0 +1,133 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<conio.h>
+
+
+enum HeroID { plute, engineer, sporter };
+enum weatherID { sunny, rain, wind, snow };
+enum timeID { day, night };
+enum calamityID { thunder, earthquake, typhoon };
+ struct HeroProperty {
+  int HPmax;
+  int MPmax;
+  int Health;
+  int cash;
+int arms;
+
+  enum HeroID heroid;
+
+}hero;
+
+
+int main() {
+  int startmenu();
+  int input();
+  int game();
+  srand(time(0));
+  startmenu();
+  return 0;
+}
+
+int startmenu() {
+  int start();
+  while (1) {
+    puts("🌵　孤岛生存1.1🍁");
+    puts("　🔱　开始游戏");
+    puts("　🍎　玩法介绍");
+    puts("　🌴　查看记录");
+    puts("　🐎　退出游戏");
+    switch (getch()) {
+    case '1':
+      clrscr();
+      start();
+      return 0;
+    case '2':
+      clrscr();
+      puts
+        ("凭借你的特殊能力，在这做孤岛上坚强的活下去……");
+      getch();
+      break;
+    case '3':
+      puts("敬请期待！");
+      getch();
+      break;
+    case '4':
+      puts("程序已结束");
+      return 0;
+    default:
+      puts("错误输入");
+    }
+    clrscr();
+  }
+  return 0;
+}
+int start() {
+  void showhero();
+  char SC();
+  showhero();
+  clrscr();
+ for(char c='A';c<'z';putchar(c++));
+
+
+
+
+return 0;
+}
+void showhero() {
+  while (1) {
+  	clrscr();
+    puts("　请选择职业");
+    puts("🎫　富豪");
+    puts("🔨　武器大师");
+    puts("💪　武斗家");
+
+    switch (getch()) {
+    case '1':
+      clrscr();
+      puts("🎫　富豪");
+      puts
+        ("你是一个体弱的富豪，你有千万资产(出生就有1000资产)，但是由于长期劳累，你的体质和体能只有常人的80%，并且你病不善于节约，所以物品反馈收益为零，现在就好好依靠你剩下的东西在这座荒岛上活下去，去壮大自己吧。");
+      puts("\033[45;37;5m按下5来确定\033[43;37;0m");
+      if (getch() == '5') {
+        hero.cash = 1000;
+        hero.HPmax = 80;
+        hero.MPmax = 80;
+        hero.arms = 100;
+        hero.heroid = plute;
+        return;
+      }
+      break;
+    case '2':
+      clrscr();
+      puts("🔨　武器大师");
+      puts
+        ("你是一个技艺精湛的武器大师，你懂的最好的武器应该如何锻造，好的武器应该如何保养，对自己的武器应该如何去使用，因此在进行搏斗的时候你的武器的耐久度消耗速度是其他人的一半，猎杀野兽的时候将不会消耗耐久度");
+      puts("\033[45;37;5m按下5来确定\033[43;37;0m");
+      if (getch() == '5') {
+        hero.cash = 100;
+        hero.HPmax = 100;
+        hero.MPmax = 100;
+        hero.arms = 200;
+        hero.heroid = engineer;
+        return;
+      }
+      break;
+    case '3':
+      clrscr();
+      puts("💪　武斗家");
+      puts
+        ("你是一个身体强壮的武斗家，你拥有强魄的体格，超于常人的体能，以及各种格斗技巧，所以对付那些野兽对你来说根本就不算什么，因此与野兽搏斗的时候伤害减半，你的体质和体能是一般人的1.2倍");
+      puts("\033[45;37;5m按下5来确定\033[43;37;0m");
+      if (getch() == '5') {
+        hero.cash = 100;
+        hero.HPmax = 120;
+        hero.MPmax = 120;
+        hero.arms = 100;
+        hero.heroid = sporter;
+        return;
+      }
+      break;
+    }
+  }
+}

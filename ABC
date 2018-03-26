@@ -1,0 +1,144 @@
+#include"stdio.h"
+#include"conio.h"
+#include"stdlib.h"
+#include"time.h"
+int main() {
+  void START();
+  while(1){
+  START();
+  printf("重新开始吗？ Y or N\n");
+  fflush(stdout);
+  if(getch()!='Y')return 0;}
+}
+
+void START() {
+  void SCSZ(char map[5][3],int a);
+  char map[5][3], a, daan[3];
+  int zhcs = 5, b, x, c, shuzi, y, GQ = 0, HP = 3, t = 500000;
+  srand(time(0));
+  while (GQ <= 9) {
+    GQ++;
+    printf("第%d关\n", GQ);
+    sleep(3);
+    clrscr();
+    for (y = 0; y < 3; y++)
+      for (x = 0; x < 5; x++)
+        map[x][y] = ' ';
+    map[0][1] = map[2][1] = map[4][1] = '?';
+    daan[0] = daan[1] = daan[2] = '?';
+    a = rand() % 10 + 48;
+    b = rand() % 3;
+    if (b == 0)
+      daan[0] = map[0][1] = a;
+    else if (b == 1)
+      daan[1] = map[2][1] = a;
+    else
+      daan[2] = map[4][1] = a;
+    SCSZ(map,HP);
+    printf("准备好了吗?(按任意键开始)\n");
+    getch();
+    for (b = 3; b > 0; b--) {
+      printf("%d!\n", b);
+      sleep(1);
+    }
+    printf("开始!!!\n");
+    sleep(1);
+    clrscr();
+    map[0][1] = '?', map[2][1] = '?', map[4][1] = '?';
+    SCSZ(map,HP);
+    usleep(t);
+    b = zhcs;
+    while (b--) {
+      char z;
+      shuzi = rand() % 3;
+      usleep(t);
+      switch (shuzi) {
+      case 1:
+        clrscr();
+        map[1][0] = map[1][2] = map[0][1];
+        map[0][1] = map[2][1] = ' ';
+        SCSZ(map,HP);
+        usleep(t / 3);
+        clrscr();
+        map[0][1] = map[2][1] = map[1][0];
+        map[1][0] = map[1][2] = ' ';
+        SCSZ(map,HP);
+        z = daan[0], daan[0] = daan[1], daan[1] = z;
+        usleep(t / 2);
+        break;
+      case 2:
+        clrscr();
+        map[2][0] = map[2][2] = map[0][1];
+        map[0][1] = map[4][1] = ' ';
+        SCSZ(map,HP);
+        usleep(t / 3);
+        clrscr();
+        map[0][1] = map[4][1] = map[2][0];
+        map[2][0] = map[2][2] = ' ';
+        SCSZ(map,HP);
+        z = daan[0], daan[0] = daan[2], daan[2] = z;
+        usleep(t / 2);
+        break;
+      case 0:
+        clrscr();
+        map[3][0] = map[3][2] = map[0][1];
+        map[2][1] = map[4][1] = ' ';
+        SCSZ(map,HP);
+        usleep(t / 3);
+        clrscr();
+        map[2][1] = map[4][1] = map[0][1];
+        map[3][0] = map[3][2] = ' ';
+        SCSZ(map,HP);
+        z = daan[1], daan[1] = daan[2], daan[2] = z;
+        usleep(t / 2);
+      }
+    }
+    clrscr();
+    map[0][1] = map[2][1] = map[4][1] = '?';
+    map[0][2] = '1';
+    map[2][2] = '2';
+    map[4][2] = '3';
+    SCSZ(map,HP);
+
+
+    /* putchar(daan[0]),putchar(daan[1]),putchar(daan[2]); */
+
+
+setbuf(stdin,NULL);//清除之前所有的输入
+    printf("请输入答案:\n");
+    
+    c=getch()-48;
+    
+    sleep(1);
+    clrscr();
+    if (!(c >= 1 && c <= 3)) {
+      printf("回答错误,HP=%d \n ", --HP);
+    } else if (daan[c - 1] != '?')
+      printf("回答正确！准备下一关,HP=%d \n", HP);
+    else
+      printf("回答错误,HP=%d\n", --HP);
+    if (HP <= 0) {
+      printf("生命值已完 \n ");
+      return;
+    }
+    if (GQ > 9) {
+      printf("恭喜通关！！！\n");
+      return;
+
+    }
+    clrscr();
+    sleep(3);
+    zhcs += 2;
+    t -= 50000;
+  }
+}
+
+
+void SCSZ(char map[5][3],int HP) {
+  for (int y = 0; y < 3; y++, putchar('\n'))
+    for (int x = 0; x < 5; x++, putchar(' '))
+      putchar(map[x][y]);
+      printf("生命值：");
+      while(HP--)printf("♥");
+      putchar('\n');
+}

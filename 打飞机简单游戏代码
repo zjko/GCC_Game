@@ -1,0 +1,170 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#define H 35
+// 高度high
+#define W 75
+// 宽度weight
+#define LEFT '4'
+#define RIGHT '6'
+#define T 300
+#define DEF 0
+// 自定义动作键…
+void getway();					// 获取用户输入
+void move(int yi);				// 移动数组
+void draw();					// 将数组画出
+void judge();					// 判断
+void getfly();					// 随机出现带口的柱子
+void over();
+int x, y;
+// x横坐标即列数，y纵坐标即行数…
+int i, j, time = 10;
+int yi;
+// 储存动作
+char *u, *r, *l;
+// 指向自己上，左，右
+char *fly, *flyl, *flyr;
+// 指向飞机的左中右
+char map[H][W];
+// 用二维数组存全图…
+int main()
+{
+	for (i = 0; i != H; ++i)
+		for (j = 0; j != W; ++j)
+		{
+			if ((i == 0) || (i == H - 1) || (j == 0) || (j == W - 1))
+				map[i][j] = '3';	// 边界
+			else
+				map[i][j] = '0';	// 空白部分
+		}						// 初始化数组
+	x = W / 2;					// 
+	y = H - 4;					// 自己的坐标
+	u = &map[y - 1][x];
+	r = &map[y][x + 1];
+	l = &map[y][x - 1];
+	*u = '1';
+	*l = '1';
+	*r = '1';					// 自己的代表字符
+	yi = DEF;					// 初始化动作
+	sleep(2);					// 程序暂停
+	while (1)
+	{
+		if (time % 10 == 0)
+			getfly();			// 每隔10步，出现一个飞机
+		getway();
+		move(yi);
+		// judge();
+		draw();
+		time++;
+		yi == DEF;				// 成为默认动作
+		usleep(T * 1000);
+		// 步时
+		clrscr();
+		if (time == 200)
+			over();				// 本游戏为不死之身，所以出现了20个飞机后，就自动结束游戏
+	}
+	return 0;
+}
+
+void getway()
+{
+	char t;
+	while (kbhit())				// 判断有无输入值…
+	{
+		t = getch();			// 有则捕获…
+		if ((t != LEFT) && (t != RIGHT))
+			yi = 0;				// 默认不移动
+		else if (t == LEFT)
+			yi = -1;
+		else if (t == RIGHT)
+			yi = 1;
+	}
+}
+
+void getfly()
+{
+	int b;
+	b = random() % (W - 3);
+	fly = &map[2][b];
+	flyl = &map[2][b - 1];
+	flyr = &map[2][b + 1];		// 指向新出现的飞机
+	*fly = '2';
+	*flyl = '2';
+	*flyr = '2';				// 新飞机的坐标赋值
+}
+
+void move(int yi)
+{
+	// 对动作的判断
+	switch (yi)
+	{
+	case 0:
+		break;
+	case 1:
+		x = x + 1;
+		*r = '0';
+		*u = '0';
+		*l = '0';				// 将原来的自己变成空白
+		u = &map[y - 1][x];
+		r = &map[y][x + 1];
+		l = &map[y][x - 1];		// 指向新的坐标
+		break;
+	case -1:
+		x = x - 1;
+		*r = '0';
+		*u = '0';
+		*l = '0';				// 将原来的自己变成空白
+		u = &map[y - 1][x];
+		r = &map[y][x + 1];
+		l = &map[y][x - 1];		// 指向新的坐标
+		break;
+	}
+	for (i = H - 2; i != 1; --i)
+	{
+		for (j = W - 2; j != 1; --j)
+		{
+			if ((i == y - 1) && (j == x))
+				;
+			else if ((i >= y) && ((j == x) || (j == x - 1) || (j == x + 1)))
+				;				// 数组下移，跳过自己新的坐标
+			// else if (*map[i][j]=='5')
+			// 这里是炮弹，最多是跳过，不能让它上移，不然经过一次循环就到地图顶部了。。。
+			;
+		}
+		map[i][j] = '0';
+	}
+}
+
+/* void judge() { switch (*head) { case '3': over(); break; case '0': *head =
+   '1'; *tail = '1'; // 如果是空白，就把值换成1 break; } } */
+void draw()
+// 绘图…
+{
+	for (i = 0; i != H; ++i)
+	{
+		for (j = 0; j != W; ++j)
+			switch (map[i][j])
+			{
+			case '0':
+				printf(" ");
+				break;
+			case '3':
+				printf("\033[32;33m#\33[40;37m");
+				break;
+			case '1':
+				printf("\033[41;33m@\33[40;37m");
+				break;
+			case '2':
+				printf("\033[36;46m=\33[40;37m");
+				break;
+			}
+		printf("\n");
+	}
+}
+
+void over()
+// game over!!!
+{
+	printf("\tGame over!!!\n");
+	exit(0);
+}

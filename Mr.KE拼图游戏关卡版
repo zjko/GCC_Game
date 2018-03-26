@@ -1,0 +1,140 @@
+#include"stdio.h"
+#include"stdlib.h"
+#include"conio.h"
+#include"time.h"
+#define LEFT '4'
+#define RIGHT '6'
+#define UP '2'
+#define DOWN '5'
+int ndx=3,ndy=2,gq=1;
+void SC(char map[4][13])
+{
+	for (int y = 0; y < 4; putchar('\n'), y++)
+		for (int x = 0; x < 13; putchar(map[y][x++]));
+}
+
+int SLTJ(char map[4][13], int ndx, int ndy)
+{
+	int s = 0, y, x;
+	for (y = 0; y < ndy; y++)
+		for (x = 0; x < ndx; x++)
+			s += map[y][x] == map[y][x + 7];
+	if (s + 1 == ndx * ndy)
+		return 1;
+	else
+		return 0;
+
+
+}
+
+void START()
+{
+	srand(time(0));
+	char map[4][13], aj;
+	int x, y, k, c;
+	int kgx, kgy, bs = 0;
+
+	while (1)
+	{
+		printf("第%d关\n", gq);
+		sleep(3);
+		clrscr();
+		for (y = 0; y < 4; y++)
+			for (x = 0; x < 13; x++)
+				map[y][x] = ' ';
+
+
+		for (y = 0, k = 0; y < ndy; y++)
+			for (x = 0; x < ndx; x++, k++)
+				map[y][x] = k + 'A';
+		for (y = 0, k = 0; y < 4; y++)
+			map[y][6] = '|';
+		for (y = 0, k = 0; y < ndy; y++)
+			for (x = 7; x < ndx + 7; x++, k++)
+				map[y][x] = k + 'A';
+		for (int a1, a2, b1, b2; k--;)
+		{
+			a1 = rand() % ndx;
+			b1 = rand() % ndy;
+			a2 = rand() % ndx;
+			b2 = rand() % ndy;
+			c = map[b1][a1];
+			map[b1][a1] = map[b2][a2];
+			map[b2][a2] = c;
+
+		}
+		x = rand() % ndx, y = rand() % ndy;
+		map[y][x] = '=';
+		kgy = y, kgx = x;
+		SC(map);
+		while (1)
+		{
+			bs++;
+			fflush(stdout);
+			switch (getch())
+			{
+			case UP:
+				if (y - 1 >= 0)
+				{
+					c = map[y][x];
+					map[y][x] = map[y - 1][x];
+					map[y - 1][x] = c;
+					y -= 1;
+				}
+				break;
+			case DOWN:
+				if (y + 1 < ndy)
+				{
+					c = map[y][x];
+					map[y][x] = map[y + 1][x];
+					map[y + 1][x] = c;
+					y += 1;
+				}
+				break;
+			case LEFT:
+				if (x - 1 >= 0)
+				{
+					c = map[y][x];
+					map[y][x] = map[y][x - 1];
+					map[y][x - 1] = c;
+					x -= 1;
+				}
+				break;
+			case RIGHT:
+				if (x + 1 < ndx)
+				{
+					c = map[y][x];
+					map[y][x] = map[y][x + 1];
+					map[y][x + 1] = c;
+					x += 1;
+				}
+				break;
+			}
+		
+			clrscr();
+			SC(map);
+			printf("已走%d步\n", bs);
+			if (SLTJ(map, ndx, ndy))
+			{
+				printf("恭喜通关！！准备下一关！\n");
+				rand() % 2 ? ndx++ : ndy++;
+				if (ndx > 6)
+					ndx--, ndy++;
+				if (ndy > 4)
+					ndy--, ndx++;
+				if (ndx > 6)
+				{
+					printf("本游戏以完全通关！！！\n");
+					return;
+				}
+				START();
+			}
+		}
+	}
+}
+
+
+main()
+{
+	START();
+}

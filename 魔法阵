@@ -1,0 +1,18 @@
+#define A sqrt(3)
+#include"stdio.h"
+#include"math.h"
+main()
+{
+	for (int y = 30; y >= 0; y--, putchar('\n'))
+		for (int x = 1; x <= 30; x++)
+			if (fabs(y - 15 + A / 3 * x) < .3
+				|| pow(x - 15, 2) + pow(y - 15, 2) - pow(15, 2) >= 1
+				|| fabs(y - 25 + A / 3 * (x - 15)) <= .5
+				|| fabs(y - 10 - A / 3 * (x - 25)) <= .5
+				|| fabs(y - A / 3 * x - 15) < .5 || x == 10 || x == 20)
+				putchar('*');
+			else
+				putchar(' ');
+
+
+}

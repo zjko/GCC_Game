@@ -1,0 +1,19 @@
+#include"conio.h"
+#include"stdio.h"
+main()
+{
+	int n;
+	scanf("%d",&n);
+	for(int i=1,z=n;i<=n;i++,z--)
+		for(int k=i,x=1;k;k--,x++,putchar('\n'))
+			{
+				for(int k1=k+z;k1--;putchar('\40'));
+				for(int x1=x;x1--;printf("\033[42;37;5m*\033[43;37;0m "))fflush(stdout),usleep(80000);	
+			}
+			printf("love you forever !\n");  
+	for(int z1=n;z1--;putchar('\n')){
+			for(int k2=n+1;k2--;putchar(' '));
+			putchar('*');}
+	printf("\110\141\160\160\171\40\103\150\162\151\163\164\155\141\163\40\105\166\145\41");
+
+}
