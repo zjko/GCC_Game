@@ -1,15 +1,11 @@
-
 //According to different system modifications
 #define CLEARSCREEN system("cls")
 #define Keying		getch()
-
-
 //Game Setting
 #define CB_Color_Space 	" "
 #define CB_Color_First 	"#"
 #define CB_Color_Second "+"
 #define CB_Color_Select "^"
-
 //Operation Key Setting
 #define Operation_Down 	'2'
 #define Operation_UP 	'8'
@@ -21,13 +17,11 @@
 #define ServiceIP
 #define ServicePort
 */
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<conio.h>
 struct Gobang {
-
 	char CB[15][15];		//Checkerboard
 	bool CP = true;			//true is first;
 	char *MSG;
@@ -138,4 +132,3 @@ int main(){
 	game.init();
 	
 }
-
